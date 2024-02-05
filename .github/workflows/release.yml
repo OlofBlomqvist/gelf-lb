@@ -19,7 +19,7 @@ jobs:
         if: matrix.target == 'x86_64-unknown-linux-musl'
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc gcc-multilib
+          sudo apt-get install -y gcc gcc-multilib zlib1g-dev
 
       - name: Compile and release
         uses: rust-build/rust-build.action@v1.4.4
