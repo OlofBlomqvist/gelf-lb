@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-flate2 = { version = "*", features = ["zlib"], default-features = false }
+flate2 = { version = "1.0.28" }
 serde_json = "1.0.113"
 serde = {version="*", features = ["derive"]}
 socket2 = "0.5.5"
