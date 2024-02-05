@@ -34,7 +34,7 @@ strip_fields = [ # drop any given field from all messages prior to forwarding th
 blank_fields = [ # sets string fields to "******" before forwarding
     "PID"
 ]
-log_level = "info" # (default:info) trace/debug/info/warn/errt
+log_level = "info" # (default:info) trace/debug/info/warn/error
 transparent = true # (default:true) keep the original source IP addr when forwarding - this is not allowed on non-server versions of Windows
 attach_source_info = false # (default: false) attach the original source IP and DNS name fields to all logged messages - mostly useful when running on non-server versions of Windows
 allowed_source_ips = [ # defaults to an empty array. use this if you wish to only allow forwarding from specific sources
