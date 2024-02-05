@@ -1,5 +1,4 @@
 # .github/workflows/release.yml
-
 on:
   release:
     types: [created]
@@ -14,10 +13,19 @@ jobs:
         target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl]
     steps:
       - uses: actions/checkout@master
+
+      # Add this step to install additional packages
+      - name: Install musl tools and libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc gcc-multilib musl-tools musl-dev
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/local/musl/lib/libz.so
+
+
       - name: Compile and release
         uses: rust-build/rust-build.action@v1.4.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           RUSTTARGET: ${{ matrix.target }}
-          EXTRA_FILES: "README.md LICENSE"
+          EXTRA_FILES: "readme.md LICENSE"

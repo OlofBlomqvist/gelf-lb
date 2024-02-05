@@ -8,9 +8,9 @@ Normally you would not be able to properly do round-robin loadblancing for GELF 
 
 # Linux specific information
 
-In order to build on Linux you need to install gcc and gcc-multilib:
+In order to build on ubuntu you need to install gcc & gcc-multilib
 ```bash
-sudo apt-get install gcc gcc-multilib
+sudo apt-get install -y gcc gcc-multilib
 ```
 
 # Windows specific information
