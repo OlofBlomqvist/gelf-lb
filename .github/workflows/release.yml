@@ -15,11 +15,12 @@ jobs:
       - uses: actions/checkout@master
 
       # Add this step to install additional packages
-      - name: Install dependencies
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+      - name: Install musl tools and libraries
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc gcc-multilib zlib1g-dev
+          sudo apt-get install -y gcc gcc-multilib musl-tools musl-dev
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/local/musl/lib/libz.so
+
 
       - name: Compile and release
         uses: rust-build/rust-build.action@v1.4.4
