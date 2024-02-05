@@ -1,4 +1,4 @@
-# GELFLB
+# GELF-LB
 
 A simple to use UDP round-robin load-balancer for GELF packets (graylog messages).
 
