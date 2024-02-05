@@ -16,7 +16,7 @@ fn select_backend(backends: &[SocketAddr], value: u64) -> &SocketAddr {
 }
 
 
-pub(crate) fn balancer(state: std::sync::Arc<crate::State>,config:std::sync::Arc<crate::Configuration>,receiver: std::sync::mpsc::Receiver<GelfMessageWrapper>,backends: Vec<SocketAddr>) {
+pub fn balancer(state: std::sync::Arc<crate::State>,config:std::sync::Arc<crate::Configuration>,receiver: std::sync::mpsc::Receiver<GelfMessageWrapper>,backends: Vec<SocketAddr>) {
     
     let mut backend_cycle = backends.iter().cycle();
     let normal_socket = UdpSocket::bind("0.0.0.0:0").unwrap();

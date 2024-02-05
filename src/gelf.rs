@@ -60,7 +60,7 @@ where
 
 #[derive(Clone,Debug)]
 // Define a struct to hold GELF packets.
-pub (crate) struct GelfPacket {
+pub struct GelfPacket {
     pub data: Vec<u8>,
     pub message_id: u64,
     #[allow(dead_code)]
@@ -71,7 +71,7 @@ pub (crate) struct GelfPacket {
 }
 
 impl GelfPacket {
-    pub(crate)fn new_chunked(
+    pub fn new_chunked(
         data: Vec<u8>,
         message_id: u64,
         sequence_number: u8,
@@ -86,7 +86,7 @@ impl GelfPacket {
             source_ip,
         }
     }
-    pub(crate)fn new_simple(
+    pub fn new_simple(
         data: Vec<u8>,
         source_ip: SocketAddr,
     ) -> Self {
@@ -100,7 +100,7 @@ impl GelfPacket {
     }
     // https://go2docs.graylog.org/5-0/getting_in_log_data/gelf.html
     // Method to check if the packet is chunked.
-    pub(crate) fn is_chunked(&self) -> bool {
+    pub fn is_chunked(&self) -> bool {
         // Check if the packet starts with the specific bytes 0x1e followed by 0x0f.
         self.data.len() >= 5 && self.data[0] == 0x1e && self.data[1] == 0x0f
     }
@@ -109,7 +109,7 @@ impl GelfPacket {
 
 
 // Parse GELF packet to extract message ID, sequence number, and total chunks.
-pub(crate) fn parse_chunk_info(data: &[u8]) -> (u64, u8, u8) {
+pub fn parse_chunk_info(data: &[u8]) -> (u64, u8, u8) {
     if data.len() >= 12 && data[0] == 0x1e && data[1] == 0x0f {
         // Check if it's a valid chunked packet.
         let mut message_id = [0u8; 8];
@@ -226,7 +226,7 @@ fn gzip_decompress(compressed_bytes: &[u8]) -> std::io::Result<Vec<u8>> {
 
 impl GelfMessageWrapper {
 
-    pub(crate) fn set_payload(&mut self,new_payload_msg:GelfMessage,config:&crate::Configuration) {
+    pub fn set_payload(&mut self,new_payload_msg:GelfMessage,config:&crate::Configuration) {
 
 
         let serialized = serde_json::to_string(&new_payload_msg).map_err(|e|format!("{e:?}")).expect("should always be possible to serialize gelfmsg");
@@ -287,21 +287,21 @@ impl GelfMessageWrapper {
 
     }
 
-    pub(crate) fn pkg_id(&self) -> Option<u64> {
+    pub fn pkg_id(&self) -> Option<u64> {
         match self {
             GelfMessageWrapper::Chunked(x) => Some(x.id),
             GelfMessageWrapper::Simple(_) => None,
         }
     }
 
-    pub(crate) fn pkg_src(&self) -> SocketAddr {
+    pub fn pkg_src(&self) -> SocketAddr {
         match self {
             GelfMessageWrapper::Chunked(x) => x.chunks[0].source_ip,
             GelfMessageWrapper::Simple(x) => x.source_ip,
         }
     }
 
-    pub(crate) fn is_chunked(&self) -> bool {
+    pub fn is_chunked(&self) -> bool {
         match self {
             GelfMessageWrapper::Chunked(_) => true,
             GelfMessageWrapper::Simple(_) => false,

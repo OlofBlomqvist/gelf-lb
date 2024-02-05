@@ -7,7 +7,7 @@ use std::net::SocketAddr;
 use libc::{socket, sendto, SOCK_RAW, IPPROTO_RAW, sockaddr, close};
 use libc::{sockaddr_in, sockaddr_in6, AF_INET, AF_INET6};
 
-pub (crate) fn send_raw(packet: &[u8], destination: SocketAddr) -> Result<()> {
+pub fn send_raw(packet: &[u8], destination: SocketAddr) -> Result<()> {
     log::info!("Sending a single packet to: {:?}",destination);
     let sock = match destination {
         SocketAddr::V4(_) => unsafe { socket(AF_INET, SOCK_RAW, IPPROTO_RAW) },

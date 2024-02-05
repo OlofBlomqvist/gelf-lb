@@ -9,7 +9,7 @@ fn make_word(low: u8, high: u8) -> u16 {
     ((high as u16) << 8) | (low as u16)
 }
 
-pub(crate) fn send_raw(bytes: &[u8], destination: SocketAddr) -> Result<()> {
+pub fn send_raw(bytes: &[u8], destination: SocketAddr) -> Result<()> {
     unsafe {
         let mut wsadata = WSADATA::default();
         let result = WSAStartup(make_word(2, 2), &mut wsadata);

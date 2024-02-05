@@ -19,7 +19,7 @@ It is possible to build & run this application also on Windows clients such as W
 
 # How to install
 
-If you do not wish to build the application yourself you can download the latest release from the github repository or use Cargo to install from Crates.io.
+There is no installer, just a binary. If you do not wish to build it yourself you can download the latest release from the github repository.
 
 # How to run
 

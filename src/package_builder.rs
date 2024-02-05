@@ -7,7 +7,7 @@ use etherparse::IpHeader;
 use etherparse::Ipv6Header;
 use etherparse::PacketBuilder;
 
-pub (crate) fn build_custom_packet(source: SocketAddr, destination: SocketAddr, payload: &[u8]) -> Vec<u8> {
+pub fn build_custom_packet(source: SocketAddr, destination: SocketAddr, payload: &[u8]) -> Vec<u8> {
 
     let ip_header = match source.ip() {
         IpAddr::V4(source_ip) => 
