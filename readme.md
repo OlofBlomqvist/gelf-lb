@@ -27,6 +27,8 @@ Example configuration file:
 ```toml
 listen_ip = "0.0.0.0" # defaults to 127.0.0.1. can also use ipv6 here like this: "[::1]" 
 listen_port = 12201
+chunk_size = 1024 # used only if you use settings that modify messages such as: attach_source_info,strip_fields or blank_fields
+use_gzip = true # defaults to true. used only if you use settings that modify messages such as: attach_source_info,strip_fields or blank_fields.
 strip_fields = [ # drop any given field from all messages prior to forwarding them.
     "password", 
     "secret"

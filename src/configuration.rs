@@ -25,35 +25,16 @@ pub struct Configuration {
     pub chunk_size : u64
 }
 
-fn default_chunk_size() -> u64 {
-    1024
-}
+fn default_ip() -> String { "127.0.0.1".to_string() }
+fn default_log_level() -> String { "info".to_string() }
+const fn default_transparent() -> bool { true }
+const fn default_chunk_size() -> u64 { 1024 }
+const fn default_use_gzip() -> Option<bool> { Some(true) }
 
-fn default_use_gzip() -> Option<bool> {
-    Some(true)
-}
-
-// Define the structure for the backend entries.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Backend {
     pub ip: String,
     pub port: u16,
-}
-
-// Function to return the default value for `log_level` if it's not specified.
-fn default_ip() -> String {
-    "127.0.0.1".to_string()
-}
-
-
-// Function to return the default value for `log_level` if it's not specified.
-fn default_log_level() -> String {
-    "info".to_string()
-}
-
-// Function to return the default value for `transparent` if it's not specified.
-const fn default_transparent() -> bool {
-    true
 }
 
 impl Default for Configuration {
