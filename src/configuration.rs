@@ -1,10 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug,serde::Deserialize)]
+#[derive(Debug,serde::Deserialize,serde::Serialize)]
 pub struct Configuration {
     #[serde(default = "default_ip")]
     pub listen_ip : String,
     pub listen_port: u16,
+    pub web_ui_port : Option<u16>,
     #[serde(default)]
     pub strip_fields: Vec<String>,
     #[serde(default)]
@@ -26,7 +27,7 @@ pub struct Configuration {
 }
 
 fn default_ip() -> String { "127.0.0.1".to_string() }
-fn default_log_level() -> String { "info".to_string() }
+fn default_log_level() -> String { std::env::var("RUST_LOG").unwrap_or("info".into()) }
 const fn default_transparent() -> bool { true }
 const fn default_chunk_size() -> u64 { 1024 }
 const fn default_use_gzip() -> Option<bool> { Some(true) }
@@ -40,6 +41,7 @@ pub struct Backend {
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
+            web_ui_port: None,
             listen_ip: "".into(),
             listen_port: 0,
             strip_fields: vec![],

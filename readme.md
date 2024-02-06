@@ -27,6 +27,7 @@ Example configuration file:
 ```toml
 listen_ip = "0.0.0.0" # defaults to 127.0.0.1. can also use ipv6 here like this: "[::1]" 
 listen_port = 12201
+web_ui_port = 8080 # optional , remove to disable
 chunk_size = 1024 # used only if you use settings that modify messages such as: attach_source_info,strip_fields or blank_fields
 use_gzip = true # defaults to true. used only if you use settings that modify messages such as: attach_source_info,strip_fields or blank_fields.
 strip_fields = [ # drop any given field from all messages prior to forwarding them.
@@ -36,7 +37,7 @@ strip_fields = [ # drop any given field from all messages prior to forwarding th
 blank_fields = [ # sets string fields to "******" before forwarding
     "PID"
 ]
-log_level = "info" # (default:info) trace/debug/info/warn/error
+log_level = "info" # (defaults to RUST_LOG env var if it exists, otherwise 'info') trace/debug/info/warn/error
 transparent = true # (default:true) keep the original source IP addr when forwarding - this is not allowed on non-server versions of Windows
 attach_source_info = false # (default: false) attach the original source IP and DNS name fields to all logged messages - mostly useful when running on non-server versions of Windows
 allowed_source_ips = [ # defaults to an empty array. use this if you wish to only allow forwarding from specific sources

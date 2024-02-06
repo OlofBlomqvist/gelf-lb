@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="3">
+    <title>$title (auto-refresh 5s)</title>
+    <style>
+        html {
+            background-color:#111;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            padding: 20px;
+            color:#eee;
+        }
+        .container {
+            display: grid;
+            grid-gap: 20px; /* Space between grid items */
+            width: auto; /* Only use the space it needs */
+            max-width:900px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: auto; /* Center table horizontally within the grid */
+        }
+        th, td {
+            border: 1px solid #4f4f4f;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #000000;
+        }
+        tr:nth-child(even) {
+            background-color: #1c1c1c;
+        }
+        pre {
+            border: 1px solid #4f4f4f;
+            background-color: #1b1b1b;
+            padding: 4px;
+        }
+        a {
+            color: #59a1d8;
+        }
+        hr {
+            grid-column: 1 / -1; /* Make <hr> span the entire grid width */
+        }
+        p {
+            line-break: auto;
+        }
+        .faded {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>$header</h1>
+        <table>
+            <tr>
+                <th>Statistic</th>
+                <th>Value</th>
+            </tr>
+            $rows
+        </table>
+        <div>$notes</div>
+        <div>$configuration</div>
+        <center>
+            <a href="https://github.com/olofblomqvist/gelf-lb">GELF-LB v$app_version</a>    
+        </center>
+    </div>
+</body><br/>
+
+</html>

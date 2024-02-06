@@ -173,7 +173,7 @@ fn calculate_packet_sizes(total_size: usize, max_packet_size: usize) -> (usize, 
     (number_of_packets, packet_sizes)
 }
 
-fn create_packets(data: &[u8], packet_sizes: Vec<usize>, id: u64) -> Vec<Vec<u8>> {
+fn create_packets(data: &[u8], packet_sizes: &Vec<usize>, id: u64) -> Vec<Vec<u8>> {
     
     let mut packets = Vec::new();
     let mut start = 0;
@@ -271,12 +271,19 @@ impl GelfMessageWrapper {
             let pkg_src = self.pkg_src();
             let pkg_arrival_time = chrono::Utc::now();
 
-            let data_for_each_pkg = create_packets(&bytes,packet_sizes, pkg_id );
+            let data_for_each_pkg = create_packets(&bytes,&packet_sizes, pkg_id );
 
 
             let packets : Vec<GelfPacket> = data_for_each_pkg.into_iter().enumerate().map(|(i,bytes)| 
                 GelfPacket::new_chunked(bytes, pkg_id, i as u8, number_of_packets as u8, pkg_src)
             ).collect();
+            
+            let old_packet_chunk_count = match self {
+                GelfMessageWrapper::Chunked(x) => x.chunks.len(),
+                GelfMessageWrapper::Simple(_) => 1,
+            };
+            log::trace!("chunked a message in to {number_of_packets} packets: {packet_sizes:?}. (it was {old_packet_chunk_count} when we received it..)");
+
             *self = GelfMessageWrapper::Chunked(GelfChunkedMessage { id: pkg_id, chunks: packets, arrival_time: pkg_arrival_time, expected_max_chunks: number_of_packets});
            
 
@@ -307,18 +314,6 @@ impl GelfMessageWrapper {
             GelfMessageWrapper::Simple(_) => false,
         }
     }
-
-    pub fn is_complete(&self) -> bool {
-           
-        match self {
-            GelfMessageWrapper::Chunked(x) => {
-                x.is_complete()
-            },
-            _ => true,
-        }
-
-    }
-
 
     pub fn get_payload(&self) -> anyhow::Result<GelfMessage> {
 
