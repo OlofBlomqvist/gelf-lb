@@ -6,14 +6,14 @@ A simple to use UDP round-robin load-balancer for GELF packets (graylog messages
 
 Normally you would not be able to properly do round-robin loadblancing for GELF over UDP properly while using chunked packets as different chunks would end up on different servers, causing the messages to be discarded. This custom implementation will inspect each packet before forwarding, ensuring that all chunks for a specific message id go to the same backend.
 
-# Linux specific information
+# Linux
 
 In order to build on ubuntu you need to install gcc & gcc-multilib
 ```bash
 sudo apt-get install -y gcc gcc-multilib
 ```
 
-# Windows specific information
+# Windows
 
 It is possible to build & run this application also on Windows clients such as Windows 11 but it will then not act as a transparent proxy: the source of all log messages will seem to come from the loadbalancer. If you want to run this LB in such environments, you might want to use the "attach_source_info" setting to extend all logged messages with the original source ip and dns names.
 
