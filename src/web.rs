@@ -8,8 +8,8 @@ use tokio::net::TcpListener;
 use utoipa::{OpenApi, ToSchema};
 
 
-use crate::web::woo::*;
-use crate::web::waa::*;
+use crate::web::json::*;
+use crate::web::html::*;
 
 #[derive(OpenApi)]
 #[openapi(
@@ -22,13 +22,13 @@ use crate::web::waa::*;
 struct ApiDoc;
 
 #[derive(Clone)]
-struct AppState {
-    config: std::sync::Arc<crate::Configuration>,
-    state: std::sync::Arc<crate::State>,
+pub struct AppState {
+    pub config: std::sync::Arc<crate::Configuration>,
+    pub state: std::sync::Arc<crate::State>,
 }
 
 
-pub(crate) async fn run(state:std::sync::Arc<crate::State>,config:std::sync::Arc<crate::Configuration>) {
+pub async fn run(state:std::sync::Arc<crate::State>,config:std::sync::Arc<crate::Configuration>) {
 
     let port = config.web_ui_port.unwrap_or(8080);
 
@@ -40,9 +40,9 @@ pub(crate) async fn run(state:std::sync::Arc<crate::State>,config:std::sync::Arc
         .merge(
             utoipa_swagger_ui::SwaggerUi::new("/api-docs").url("/api-docs/openapi.json", oa)
         )
-        .route("/json", get(woo::json_handler))
-        .route("/html", get(waa::html_handler))
-        .route("/", get(waa::html_handler))
+        .route("/json", get(json::json_handler))
+        .route("/html", get(html::html_handler))
+        .route("/", get(html::html_handler))
         .with_state(AppState {
             config: config,
             state: state
@@ -56,7 +56,7 @@ pub(crate) async fn run(state:std::sync::Arc<crate::State>,config:std::sync::Arc
 }
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
-mod waa {
+pub mod html {
     #[utoipa::path(
         get,
         tag = "UI",
@@ -92,12 +92,12 @@ mod waa {
 
 
 #[derive(Serialize, ToSchema)]
-struct Info {
+pub struct Info {
     nr_of_forwarded_messages : u64,
     nr_of_handled_udp_packets : u64
 }
 
-mod woo {
+pub mod json {
     use super::Info;
     #[utoipa::path(
         get,
